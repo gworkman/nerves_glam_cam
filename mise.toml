@@ -1,0 +1,2 @@
+[env]
+MIX_TARGET = "soleil_rpi0_2"
