@@ -6,6 +6,16 @@ to showcase a fun use-case of Nerves.
 
 ![Nerves Glam Cam](/docs/IMG_3061.jpg)
 
+> [!NOTE]
+> Do you want to learn how to write an e-ink driver and get some e-ink hardware
+> to take home? I'm running a workshop at several upcoming conferences, based on
+> this project. Check it out -
+> [ElixirConf US](https://elixirconf.com/trainings/dip-your-toes-into-hardware-with-nerves/)
+> and
+> [CodeBEAM Europe](https://codebeameurope.com/trainings/dip-your-toes-into-hardware-with-nerves/)
+>
+> Feel free to contact me if you're interested or have any questions!
+
 ## Functions
 
 | Button | Press Type | Action                                      |
