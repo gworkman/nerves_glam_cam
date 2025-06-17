@@ -4,6 +4,8 @@ A Nerves-powered conference badge, first displayed at ElixirConf EU 2025.
 Featuring an e-ink display and a tiny onboard camera, this project is designed
 to showcase a fun use-case of Nerves.
 
+![Nerves Glam Cam](/docs/IMG_3061.jpg)
+
 ## Functions
 
 | Button | Press Type | Action                                      |
@@ -25,7 +27,10 @@ Nerves Glam Cam is made of several components:
   [this one from Good Display](https://www.good-display.com/product/516.html))
 - Tiny MIPI-CSI2 camera (I used
   [this OV5647-based one from AliExpress](https://www.aliexpress.com/item/32782501654.html))
-- Some 3D printed parts and some superglue
+- Some 3D printed parts and some superglue. STEP files are available in the
+  `mechanical` directory
+
+![Nerves Glam Cam - under the hood](/docs/IMG_3040.jpg)
 
 ## Key Implementation Details
 
@@ -82,3 +87,9 @@ updates:
 - [ ] Make it more social and interactive!
 
 Stay tuned... v2 coming at Goatmire in September 2025 :eyes:
+
+## Gallery
+
+![Nerves Glam Cam](/docs/IMG_3076.jpg) ![Nerves Glam Cam](/docs/IMG_3113.jpg)
+![Nerves Glam Cam](/docs/IMG_3123.jpg) ![Nerves Glam Cam](/docs/IMG_3126.jpg)
+![Nerves Glam Cam](/docs/IMG_3128.jpg)
