@@ -1,33 +1,84 @@
-# NervesGlamCam
+# Nerves Glam Cam
 
-**TODO: Add description**
+A Nerves-powered conference badge, first displayed at ElixirConf EU 2025.
+Featuring an e-ink display and a tiny onboard camera, this project is designed
+to showcase a fun use-case of Nerves.
 
-## Targets
+## Functions
 
-Nerves applications produce images for hardware targets based on the
-`MIX_TARGET` environment variable. If `MIX_TARGET` is unset, `mix` builds an
-image that runs on the host (e.g., your laptop). This is useful for executing
-logic tests, running utilities, and debugging. Other targets are represented by
-a short name like `rpi3` that maps to a Nerves system image for that platform.
-All of this logic is in the generated `mix.exs` and may be customized. For more
-information about targets see:
+| Button | Press Type | Action                                      |
+| ------ | ---------- | ------------------------------------------- |
+| Red    | Any        | Capture an image and show it on the display |
+| Black  | Short      | Cycle through the loaded slides             |
+| Black  | Long (5s)  | Power off (low power mode)                  |
 
-https://hexdocs.pm/nerves/supported-targets.html
+## Hardware
+
+Nerves Glam Cam is made of several components:
+
+- Raspberry Pi Zero 2W
+- [Soleil](https://protolux.io/projects/soleil) board for power management,
+  battery charging and sleep mode
+- 4.2", 400x300 e-ink display (I used
+  [this one from Good Display](https://www.good-display.com/product/386.html))
+- 24-pin e-ink SPI display adapter (I used
+  [this one from Good Display](https://www.good-display.com/product/516.html))
+- Tiny MIPI-CSI2 camera (I used
+  [this OV5647-based one from AliExpress](https://www.aliexpress.com/item/32782501654.html))
+- Some 3D printed parts and some superglue
+
+## Key Implementation Details
+
+It's a surprisingly small amount of code required to build this app and make it
+run. There's two areas which are not super trivial though:
+
+### E-Ink Display Driver
+
+The e-ink display contains a SSD1683 driver chip, and is controlled using an SPI
+interface. The `NervesGlamCam.EInk` module handles initialization, configuring
+parameters like dimensions and operating mode, writing pixel data to the display
+buffer, and enabling power-saving sleep mode.
+
+The
+[device datasheet](https://v4.cecdn.yun300.cn/100001_1909185148/GDEY042T81.pdf)
+contains example code which served as the starting point for the software driver
+in this repo.
+
+### Image Processing
+
+Images go through a standard processing pipeline to prepare them for display.
+The source of the images can be static images (such as the pre-rendered slides,
+which are just JPEG files) or dynamic images captured by the camera. First, an
+image is converted to black and white, then resized to fit the screen
+dimensions, and finally dithered using the Floyd-Steinberg algorithm. To handle
+dithering, I cross compiled the Rust-based
+[dither tool](https://crates.io/crates/dither) by Efron Licht. Finally, the
+processed image is formatted to match the display driver requirements and
+written to the buffer for rendering.
 
 ## Getting Started
 
-To start your Nerves app:
-  * `export MIX_TARGET=my_target` or prefix every command with
-    `MIX_TARGET=my_target`. For example, `MIX_TARGET=rpi3`
-  * Install dependencies with `mix deps.get`
-  * Create firmware with `mix firmware`
-  * Burn to an SD card with `mix burn`
+If you've gone through the trouble of acquiring all the hardware, and want to
+run this on your own device:
 
-## Learn more
+- `export MIX_TARGET=soleil_rpi0_2` or prefix every command with
+  `MIX_TARGET=soleil_rpi0_2`. If you don't have the Soleil board for power
+  management, you can also just use a target of `rpi0_2`.
+- Set your WiFi credentials as environment variables, `NERVES_WIFI_SSID` and
+  `NERVES_WIFI_PASSPHRASE`
+- Install dependencies with `mix deps.get`
+- Create firmware with `mix firmware`
+- Burn to an SD card with `mix burn`
 
-  * Official docs: https://hexdocs.pm/nerves/getting-started.html
-  * Official website: https://nerves-project.org/
-  * Forum: https://elixirforum.com/c/nerves-forum
-  * Elixir Slack #nerves channel: https://elixir-slack.community/
-  * Elixir Discord #nerves channel: https://discord.gg/elixir
-  * Source: https://github.com/nerves-project/nerves
+## Future Updates
+
+The first version as shown at ElixirConf EU 2025 was bare-bones (I threw it
+together in a weekend!). For the next conference, I'd like to make a few
+updates:
+
+- [ ] Support 4-bit grayscale for nicer images (especially text and fonts)
+- [ ] Better button debounce
+- [ ] More static slides
+- [ ] Make it more social and interactive!
+
+Stay tuned... v2 coming at Goatmire in September 2025 :eyes:
