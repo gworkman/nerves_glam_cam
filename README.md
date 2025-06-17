@@ -38,7 +38,7 @@ Nerves Glam Cam is made of several components:
 - Tiny MIPI-CSI2 camera (I used
   [this OV5647-based one from AliExpress](https://www.aliexpress.com/item/32782501654.html))
 - Some 3D printed parts and some superglue. STEP files are available in the
-  `mechanical` directory
+  [`mechanical`](/mechanical/README.md) directory
 
 ![Nerves Glam Cam - under the hood](/docs/IMG_3040.jpg)
 
